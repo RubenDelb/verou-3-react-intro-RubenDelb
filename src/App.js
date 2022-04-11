@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import TodoList from "./TodoList";
 import { v4 as uuidv4 } from 'uuid';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 const LOCAL_STORAGE_KEY = 'todoApp.todos'
 
@@ -39,15 +40,24 @@ function App() {
     setTodos(newTodos)
   }
 
+  const amountTodos = todos.filter(todo => !todo.complete).length;
+  let textForAmountTodos;
+  if (todos.filter(todo => !todo.complete).length === 0) {
+    textForAmountTodos = "nothing more"
+  } else if (todos.filter(todo => !todo.complete).length === 1) {
+    textForAmountTodos = "1 thing"
+  } else {
+    textForAmountTodos = amountTodos + " things"
+  }
+
   return (
     <>
       <TodoList todos={todos} toggleTodo={toggleTodo} />
-      <input ref={todoNameRef} type="text" />
-      <button onClick={handleAddTodo}>Add Todo</button>
-      <button onClick={handleClearTodos}>Clear Completed Todos</button>
-      <div>{todos.filter(todo => !todo.complete).length} left to do</div>
+      <input className='border-2 p-1 rounded' placeholder='Enter todo here...' ref={todoNameRef} type="text" />
+      <button className='border-2 p-1 mx-2 rounded bg-teal-800' onClick={handleAddTodo}>Add Todo</button>
+      <button className='border-2 p-1 mx-2 rounded bg-teal-800' onClick={handleClearTodos}>Clear Completed Todos</button>
+      <div className='text-3xl'> You have {textForAmountTodos} to do </div>
     </>
-    
   );
 }
 
