@@ -1,9 +1,12 @@
 import Todo from "./Todo"
 
 
-function TodoList({ todoName }) {
+function TodoList({ todos }) {
   return (
-    <Todo todoName={todoName}/>
+    todos.map(todo => {
+      return <Todo todo={todo} key={todo.id} complete={todo.complete}/>
+    })
+    
   )
 }
 
