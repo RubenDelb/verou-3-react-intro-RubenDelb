@@ -23,13 +23,25 @@ function App() {
     inputRef.current.value = ""
   }
 
+  const toggleChecked = (id) => {
+    const newTodos = [...todos]
+    const checkedTodo = todos.find(todo => (todo.id === id))
+    checkedTodo.complete = !checkedTodo.complete
+    setTodos(newTodos)
+  }
+
+  const removeCompletedTodos = () => {
+    const newTodos = todos.filter(todo => !todo.complete)
+    setTodos(newTodos)
+  }
+
   return (
     <div className='grid justify-center text-center'>
       <Header headerTitle={"My Todo-List"} />
       <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
       <Button btnName={"Add"} btnFunction={addTodo}/>
-      <Button btnName={"Remove completed todos"} />
-      <TodoList todos={todos}/>
+      <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
+      <TodoList todos={todos} toggleChecked={toggleChecked} />
     </div>
   );
 }
