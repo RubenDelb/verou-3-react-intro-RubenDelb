@@ -1,8 +1,8 @@
 
 
-function Input({ placeHolder }) {
+function Input({ placeHolder, inputValue }) {
   return (
-    <input className="border-2 p-1 m-1 rounded" type="text" placeholder={placeHolder} />
+    <input className="border-2 p-1 m-1 rounded" type="text" placeholder={placeHolder} ref={inputValue} />
   )
 }
 
