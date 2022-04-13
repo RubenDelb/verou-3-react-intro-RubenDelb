@@ -1,8 +1,8 @@
 
 
-function Button({ btnName }) {
+function Button({ btnName, btnFunction }) {
   return (
-    <button className="border-2 bg-gray-100 rounded m-1 p-1">{btnName}</button>
+    <button className="border-2 bg-gray-100 rounded m-1 p-1" onClick={btnFunction}>{btnName}</button>
   )
 }
 
