@@ -4,7 +4,9 @@ import { v4 } from 'uuid';
 import Header from './Header';
 import Input from './Input';
 import Button from './Button';
+import CalendarFull from './CalendarFull';
 // import {BrowserRouter, Routes, Route} from "react-router-dom";
+
 
 const LocalStorageKey = "todosForTodoApp" // unique key to store 1 string in user's localstorage
 
@@ -53,9 +55,11 @@ function App() {
     <div className='grid justify-center text-center'>
       <Header headerTitle={"My Todo-List"} />
       <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
+      <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
       <Button btnName={"Add"} btnFunction={addTodo} />
       <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
       <TodoList todos={todos} toggleChecked={toggleChecked} />
+      <CalendarFull />
     </div>
   );
 }
