@@ -6,11 +6,25 @@ import Input from './Input';
 import Button from './Button';
 // import {BrowserRouter, Routes, Route} from "react-router-dom";
 
+const LocalStorageKey = "todosForTodoApp" // unique key to store 1 string in user's localstorage
+
 function App() {
   // create a todolist with useState 
   const [todos, setTodos] = useState([])
   // catch any input that's given with useRef
   const inputRef = useRef()
+
+  // On every page load (*1), Parse the stored todos from localstorage back to an array (*2), 
+  // And populate the todolist with that array(*3) 
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(LocalStorageKey)) // *2
+    if(storedTodos) setTodos(storedTodos) // *3
+  },[]) // *1
+
+  // Every time the todo's are modified(*1), it saves the new array of todos as a string in localstorage(*2)
+  useEffect(() => {
+    localStorage.setItem(LocalStorageKey, JSON.stringify(todos)) //*2
+  }, [todos]) // *1
 
   // Set new todo in the "todos"-array with the value of what's been inputted in the inputfield 
   const addTodo = () => {
