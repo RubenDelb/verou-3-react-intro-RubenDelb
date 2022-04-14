@@ -18,8 +18,8 @@ function App() {
   // And populate the todolist with that array(*3) 
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LocalStorageKey)) // *2
-    if(storedTodos) setTodos(storedTodos) // *3
-  },[]) // *1
+    if (storedTodos) setTodos(storedTodos) // *3
+  }, []) // *1
 
   // Every time the todo's are modified(*1), it saves the new array of todos as a string in localstorage(*2)
   useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
     const inputName = inputRef.current.value // catch inputvalue
     if (inputName === "") return
     setTodos(prevTodos => {
-      return [...prevTodos, {id: v4(), name: inputName, complete: false}]
+      return [...prevTodos, { id: v4(), name: inputName, complete: false }]
     })
     // Make the inputfield empty again after adding the todo
     inputRef.current.value = ""
@@ -53,7 +53,7 @@ function App() {
     <div className='grid justify-center text-center'>
       <Header headerTitle={"My Todo-List"} />
       <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
-      <Button btnName={"Add"} btnFunction={addTodo}/>
+      <Button btnName={"Add"} btnFunction={addTodo} />
       <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
       <TodoList todos={todos} toggleChecked={toggleChecked} />
     </div>
