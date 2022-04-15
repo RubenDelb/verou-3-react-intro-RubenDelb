@@ -4,15 +4,24 @@ import { v4 } from 'uuid';
 import Header from './Header';
 import Input from './Input';
 import Button from './Button';
+import DatePicker from "react-datepicker"
 import CalendarFull from './CalendarFull';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { toDate } from 'date-fns';
+import NavBar from './NavBar';
+
 
 const LocalStorageKey = "todosForTodoApp" // unique key to store 1 string in user's localstorage
 
 function App() {
   // create a todolist with useState 
   const [todos, setTodos] = useState([])
+  const [newTodo, setNewTodo] = useState([])
   // catch any input that's given with useRef
-  const inputRef = useRef()
+  const titleRef = useRef()
+  const startDateRef = useRef()
+  const endDateRef = useRef()
+
 
   // On every page load (*1), Parse the stored todos from localstorage back to an array (*2), 
   // And populate the todolist with that array(*3) 
@@ -28,13 +37,17 @@ function App() {
 
   // Set new todo in the "todos"-array with the value of what's been inputted in the inputfield 
   const addTodo = () => {
-    const inputName = inputRef.current.value // catch inputvalue
+    const inputName = titleRef.current.value // catch inputvalue
+    const startDate = startDateRef.current.props.selected
+    const endDate = endDateRef.current.props.selected
+    console.log(endDate);
+    console.log(toDate(endDate));
     if (inputName === "") return
     setTodos(prevTodos => {
-      return [...prevTodos, { id: v4(), title: inputName, complete: false }]
+      return [...prevTodos, { id: v4(), title: inputName, complete: false, start: startDate, end: endDate}]
     })
     // Make the inputfield empty again after adding the todo
-    inputRef.current.value = ""
+    titleRef.current.value = null
   }
 
   const toggleChecked = (id) => {
@@ -49,16 +62,43 @@ function App() {
     setTodos(newTodos)
   }
 
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+    return currentDate.getTime() < selectedDate.getTime();
+  };
+
   return (
       <div className='grid justify-center text-center bg-stone-100 text-stone-700'>
-        <Header headerTitle={"My Todo-List"} />
-            <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
+        <NavBar />
+      <div class="grid justify-center">
+        <Routes>
+          <Route path='/' element={<><Header headerTitle={"My Todo-List"} />
+            <Input placeHolder={"Enter todo here..."} inputValue={titleRef} />
+            <DatePicker className="border-2 p-1 m-1 rounded"
+              placeholderText="Start Date"
+              selected={newTodo.start}
+              onChange={(start) => setNewTodo({ ...newTodo, start })}
+              ref={startDateRef}
+              withPortal
+              showTimeSelect
+              filterTime={filterPassedTime}
+              dateFormat="d MMMM yyyy, h:mm aa" />
+            <DatePicker className="border-2 p-1 m-1 rounded"
+              placeholderText="End Date"
+              selected={newTodo.end}
+              onChange={(end) => setNewTodo({ ...newTodo, end })}
+              ref={endDateRef}
+              withPortal
+              showTimeSelect
+              filterTime={filterPassedTime}
+              dateFormat="d MMMM yyyy, h:mm aa" />
             <Button btnName={"Add"} btnFunction={addTodo} />
             <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
-            <TodoList todos={todos} toggleChecked={toggleChecked} />
-            <div className="mt-8">
-              <CalendarFull />
-            </div>
+            <TodoList todos={todos} toggleChecked={toggleChecked} /></>} />
+              <Route path='/calendar' element={<CalendarFull todos={todos} />} />
+            </Routes>
+      </div>
       </div>
   );
 }
