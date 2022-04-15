@@ -6,7 +6,7 @@ const Todo = ({ todo, toggleChecked }) => {
     return (
         <label className="my-2">
             <input className="mx-1" type="checkbox" checked={todo.complete} onChange={handleChecked} />
-            {todo.name}
+            {todo.title}
         </label>
     )
 }

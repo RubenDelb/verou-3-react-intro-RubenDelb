@@ -5,8 +5,6 @@ import Header from './Header';
 import Input from './Input';
 import Button from './Button';
 import CalendarFull from './CalendarFull';
-// import {BrowserRouter, Routes, Route} from "react-router-dom";
-
 
 const LocalStorageKey = "todosForTodoApp" // unique key to store 1 string in user's localstorage
 
@@ -33,7 +31,7 @@ function App() {
     const inputName = inputRef.current.value // catch inputvalue
     if (inputName === "") return
     setTodos(prevTodos => {
-      return [...prevTodos, { id: v4(), name: inputName, complete: false }]
+      return [...prevTodos, { id: v4(), title: inputName, complete: false }]
     })
     // Make the inputfield empty again after adding the todo
     inputRef.current.value = ""
@@ -52,15 +50,16 @@ function App() {
   }
 
   return (
-    <div className='grid justify-center text-center'>
-      <Header headerTitle={"My Todo-List"} />
-      <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
-      <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
-      <Button btnName={"Add"} btnFunction={addTodo} />
-      <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
-      <TodoList todos={todos} toggleChecked={toggleChecked} />
-      <CalendarFull />
-    </div>
+      <div className='grid justify-center text-center bg-stone-100 text-stone-700'>
+        <Header headerTitle={"My Todo-List"} />
+            <Input placeHolder={"Enter todo here..."} inputValue={inputRef} />
+            <Button btnName={"Add"} btnFunction={addTodo} />
+            <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
+            <TodoList todos={todos} toggleChecked={toggleChecked} />
+            <div className="mt-8">
+              <CalendarFull />
+            </div>
+      </div>
   );
 }
 
