@@ -4,7 +4,7 @@ const Todo = ({ todo, toggleChecked }) => {
     }
 
     return (
-        <label className="my-2">
+        <label className={`mt-2 ${todo.complete ? "line-through" : ""}`}>
             <input className="mx-1" type="checkbox" checked={todo.complete} onChange={handleChecked} />
             {todo.title}
         </label>
