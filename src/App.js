@@ -6,9 +6,10 @@ import Input from './Input';
 import Button from './Button';
 import DatePicker from "react-datepicker"
 import CalendarFull from './CalendarFull';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { toDate } from 'date-fns';
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 
 const LocalStorageKey = "todosForTodoApp" // unique key to store 1 string in user's localstorage
@@ -69,9 +70,9 @@ function App() {
   };
 
   return (
-      <div className='grid justify-center text-center bg-stone-100 text-stone-700'>
+    <div className='flex flex-col h-screen text-center bg-stone-100 text-stone-700'>
         <NavBar />
-      <div class="grid justify-center">
+      <main class="grid justify-center mb-auto">
         <Routes>
           <Route path='/' element={<><Header headerTitle={"My Todo-List"} />
             <Input placeHolder={"Enter todo here..."} inputValue={titleRef} />
@@ -98,7 +99,8 @@ function App() {
             <TodoList todos={todos} toggleChecked={toggleChecked} /></>} />
               <Route path='/calendar' element={<CalendarFull todos={todos} />} />
             </Routes>
-      </div>
+      </main>
+      <Footer />
       </div>
   );
 }
