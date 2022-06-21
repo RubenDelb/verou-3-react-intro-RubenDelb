@@ -41,8 +41,6 @@ function App() {
     const inputName = titleRef.current.value // catch inputvalue
     const startDate = startDateRef.current.props.selected
     const endDate = endDateRef.current.props.selected
-    console.log(endDate);
-    console.log(toDate(endDate));
     if (inputName === "") return
     setTodos(prevTodos => {
       return [...prevTodos, { id: v4(), title: inputName, complete: false, start: startDate, end: endDate}]
@@ -50,6 +48,8 @@ function App() {
     // Make the inputfield empty again after adding the todo
     titleRef.current.value = null
   }
+
+  
 
   const toggleChecked = (id) => {
     const newTodos = [...todos]
@@ -72,36 +72,40 @@ function App() {
   return (
     <div className='flex flex-col h-screen text-center bg-stone-100 text-stone-700'>
         <NavBar />
-      <main class="grid justify-center mb-auto">
+      <main className="grid justify-center mb-auto">
         <Routes>
-          <Route path='/' element={<><Header headerTitle={"My Todo-List"} />
-            <Input placeHolder={"Enter todo here..."} inputValue={titleRef} />
-            <DatePicker className="border-2 p-1 m-1 rounded"
-              placeholderText="Start Date"
-              selected={newTodo.start}
-              onChange={(start) => setNewTodo({ ...newTodo, start })}
-              ref={startDateRef}
-              withPortal
-              showTimeSelect
-              filterTime={filterPassedTime}
-              dateFormat="d MMMM yyyy, h:mm aa" />
-            <DatePicker className="border-2 p-1 m-1 rounded"
-              placeholderText="End Date"
-              selected={newTodo.end}
-              onChange={(end) => setNewTodo({ ...newTodo, end })}
-              ref={endDateRef}
-              withPortal
-              showTimeSelect
-              filterTime={filterPassedTime}
-              dateFormat="d MMMM yyyy, h:mm aa" />
-            <Button btnName={"Add"} btnFunction={addTodo} />
-            <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
-            <TodoList todos={todos} toggleChecked={toggleChecked} /></>} />
-              <Route path='/calendar' element={<CalendarFull todos={todos} />} />
-            </Routes>
+          <Route path='/' element={
+            <>
+              <Header headerTitle={"My Todo-List"} />
+              <Input placeHolder={"Enter todo here..."} inputValue={titleRef} />
+              <DatePicker className="border-2 p-1 m-1 rounded"
+                placeholderText="Start Date"
+                selected={newTodo.start}
+                onChange={(start) => setNewTodo({ ...newTodo, start })}
+                ref={startDateRef}
+                withPortal
+                showTimeSelect
+                filterTime={filterPassedTime}
+                dateFormat="d MMMM yyyy, h:mm aa" />
+              <DatePicker className="border-2 p-1 m-1 rounded"
+                placeholderText="End Date"
+                selected={newTodo.end}
+                onChange={(end) => setNewTodo({ ...newTodo, end })}
+                ref={endDateRef}
+                withPortal
+                showTimeSelect
+                filterTime={filterPassedTime}
+                dateFormat="d MMMM yyyy, h:mm aa" />
+              <Button btnName={"Add"} btnFunction={addTodo} />
+              <Button btnName={"Remove completed todos"} btnFunction={removeCompletedTodos} />
+              <TodoList todos={todos} toggleChecked={toggleChecked} />
+            </>}
+          />
+          <Route path='/calendar' element={<CalendarFull todos={todos} />} />
+        </Routes>
       </main>
       <Footer />
-      </div>
+    </div>
   );
 }
 
